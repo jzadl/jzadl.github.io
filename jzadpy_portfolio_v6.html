@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; }
+body { font-family: 'Inter', sans-serif; background: #1a1a1a; color: #e0e0e0; min-height: 100vh; display: flex; flex-direction: column; }
+a { color: inherit; text-decoration: none; }
+
+main { flex: 1; width: 100%; padding: 80px 6vw; }
+
+.hero { margin-bottom: 72px; }
+.hero h1 { font-size: 56px; font-weight: 700; color: #fff; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px; }
+.hero h1 span { color: #3b82f6; }
+.hero-bio { font-size: 16px; color: #888; line-height: 1.65; max-width: 540px; margin-bottom: 28px; }
+.btn-main { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; background: #3b82f6; color: #fff; font-size: 13px; font-weight: 500; border-radius: 20px; transition: background 0.15s; }
+.btn-main:hover { background: #2563eb; }
+
+section { margin-bottom: 60px; }
+.section-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 20px; }
+.section-head h2 { font-size: 18px; font-weight: 600; color: #fff; }
+.section-head span { font-size: 12px; color: #555; }
+
+.stack-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.badge { display: inline-flex; align-items: center; padding: 6px 14px; background: #222; border: 1px solid #2e2e2e; border-radius: 8px; font-size: 13px; font-weight: 500; color: #ccc; transition: border-color 0.15s, color 0.15s; }
+.badge:hover { border-color: #444; color: #fff; }
+
+.projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+.proj-card { background: #222; border: 1px solid #2e2e2e; border-radius: 10px; padding: 20px 22px; transition: border-color 0.15s, background 0.15s; display: flex; flex-direction: column; gap: 6px; }
+.proj-card:hover { border-color: #3b82f6; background: #242424; }
+.proj-header { display: flex; align-items: center; justify-content: space-between; }
+.proj-name { font-size: 14px; font-weight: 600; color: #fff; }
+.proj-arrow { font-size: 13px; color: #444; transition: color 0.15s; }
+.proj-card:hover .proj-arrow { color: #3b82f6; }
+.proj-desc { font-size: 13px; color: #777; line-height: 1.5; }
+.proj-tag { display: inline-block; margin-top: 4px; font-size: 11px; padding: 3px 8px; background: #2a2a2a; border: 1px solid #333; border-radius: 6px; color: #666; align-self: flex-start; }
+
+.proj-card.deprecated { opacity: 0.45; pointer-events: none; }
+.proj-card.deprecated .proj-name { color: #555; }
+
+.efi-links { display: flex; gap: 8px; margin-top: 8px; }
+.efi-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 6px 10px; background: #2a2a2a; border: 1px solid #333; border-radius: 7px; font-size: 12px; color: #888; transition: border-color 0.15s, color 0.15s; }
+.efi-btn:hover { border-color: #3b82f6; color: #fff; }
+
+.about-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.about-list li { font-size: 14px; color: #777; line-height: 1.6; display: flex; gap: 12px; }
+.about-list li .dots { color: #3b82f6; font-family: monospace; font-size: 13px; flex-shrink: 0; padding-top: 1px; }
+
+footer { border-top: 1px solid #2e2e2e; padding: 20px 6vw; font-size: 12px; color: #444; }
+footer a { color: #555; transition: color 0.15s; }
+footer a:hover { color: #888; }
+</style>
+</head>
+<body>
+<main>
+
+  <div class="hero">
+    <h1>jzad<span>.</span></h1>
+    <p class="hero-bio">Building tools, experimenting with systems, and pushing things a bit further than they should go — at safe limits, of course.</p>
+    <a href="https://github.com/jzadpy" class="btn-main" target="_blank">GitHub →</a>
+  </div>
+
+  <section>
+    <div class="section-head">
+      <h2>Tech stack</h2>
+      <span>what I work with</span>
+    </div>
+    <div class="stack-row">
+      <span class="badge">Python</span>
+      <span class="badge">Swift</span>
+      <span class="badge">Bash</span>
+      <span class="badge">PowerShell</span>
+      <span class="badge">React</span>
+      <span class="badge">OpenCore</span>
+      <span class="badge">Linux</span>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Projects</h2>
+      <span>things I've built</span>
+    </div>
+    <div class="projects-grid">
+
+      <a href="https://github.com/jzadpy/timely" class="proj-card" target="_blank">
+        <div class="proj-header"><span class="proj-name">Timely</span><span class="proj-arrow">↗</span></div>
+        <p class="proj-desc">React-based schedule organizer. Simple, customizable, focused on usability.</p>
+        <span class="proj-tag">React</span>
+      </a>
+
+      <a href="https://github.com/jzadpy/openbeam" class="proj-card" target="_blank">
+        <div class="proj-header"><span class="proj-name">OpenBeam</span><span class="proj-arrow">↗</span></div>
+        <p class="proj-desc">Successor to Android Beam — pairs via NFC and transfers with Quick Share.</p>
+        <span class="proj-tag">Android</span>
+      </a>
+
+      <div class="proj-card">
+        <div class="proj-header"><span class="proj-name">Hackintosh EFIs</span></div>
+        <p class="proj-desc">OpenCore configs for ThinkPads. Focused on stability and real-world use.</p>
+        <span class="proj-tag">Hackintosh · OpenCore</span>
+        <div class="efi-links">
+          <a href="https://github.com/jzadpy/t480efi.tahoe" class="efi-btn" target="_blank">T480 ↗</a>
+          <a href="https://github.com/jzadpy/t440s-monterey" class="efi-btn" target="_blank">T440s ↗</a>
+        </div>
+      </div>
+
+      <a href="https://github.com/jzadpy/selenerom" class="proj-card" target="_blank">
+        <div class="proj-header"><span class="proj-name">SeleneROM</span><span class="proj-arrow">↗</span></div>
+        <p class="proj-desc">Custom ROM guide for Redmi Note 10 (selene). Built entirely on Linux.</p>
+        <span class="proj-tag">Android · Linux</span>
+      </a>
+
+      <div class="proj-card deprecated">
+        <div class="proj-header"><span class="proj-name">PyML</span></div>
+        <p class="proj-desc">YAML-inspired syntax that transpiles to Python. Experimental, now archived.</p>
+        <span class="proj-tag">Archived</span>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>About</h2></div>
+    <ul class="about-list">
+      <li><span class="dots">.</span>i like system-level things and i make some tools that solves problems (kinda)</li>
+      <li><span class="dots">..</span>curious about how things really work</li>
+      <li><span class="dots">...</span>learning by building, breaking and (if im in the mood) rebuilding</li>
+      <li><span class="dots">....</span>i solve niche problems (seriously)</li>
+    </ul>
+  </section>
+
+</main>
+<footer>
+  <a href="https://github.com/jzadpy" target="_blank">github.com/jzadpy</a> · © 2025-present jzad
+</footer>
+</body>
+</html>
