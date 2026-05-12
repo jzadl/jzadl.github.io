@@ -32,6 +32,16 @@ section { margin-bottom: 60px; }
 .badge { display: inline-flex; align-items: center; padding: 6px 14px; background: #222; border: 1px solid #2e2e2e; border-radius: 8px; font-size: 13px; font-weight: 500; color: #ccc; transition: border-color 0.15s, color 0.15s; }
 .badge:hover { border-color: #444; color: #fff; }
 
+/* tabs */
+.tabs-row { display: flex; align-items: center; gap: 4px; margin-bottom: 20px; }
+.tabs-row h2 { font-size: 18px; font-weight: 600; color: #fff; margin-right: 10px; }
+.tab-btn { padding: 4px 12px; font-size: 12px; font-weight: 500; border-radius: 6px; border: 1px solid transparent; cursor: pointer; background: transparent; color: #555; transition: background 0.15s, color 0.15s, border-color 0.15s; font-family: inherit; }
+.tab-btn:hover { color: #aaa; }
+.tab-btn.active { background: #222; border-color: #2e2e2e; color: #ccc; }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
 .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 
 .proj-card { background: #222; border: 1px solid #2e2e2e; border-radius: 10px; padding: 20px 22px; transition: border-color 0.15s, background 0.15s; display: flex; flex-direction: column; gap: 6px; }
@@ -50,6 +60,11 @@ section { margin-bottom: 60px; }
 .efi-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 6px 10px; background: #2a2a2a; border: 1px solid #333; border-radius: 7px; font-size: 12px; color: #888; transition: border-color 0.15s, color 0.15s; }
 .efi-btn:hover { border-color: #3b82f6; color: #fff; }
 
+/* experimental badge */
+.proj-status { font-size: 10px; padding: 2px 7px; border-radius: 5px; font-weight: 500; }
+.proj-status.exp { background: #2a1f0e; border: 1px solid #4a3010; color: #c97d30; }
+.proj-status.arch { background: #1e1e1e; border: 1px solid #333; color: #555; }
+
 .about-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
 .about-list li { font-size: 14px; color: #777; line-height: 1.6; display: flex; gap: 12px; }
 .about-list li .dots { color: #3b82f6; font-family: monospace; font-size: 13px; flex-shrink: 0; padding-top: 1px; }
@@ -57,6 +72,14 @@ section { margin-bottom: 60px; }
 footer { border-top: 1px solid #2e2e2e; padding: 20px 6vw; font-size: 12px; color: #444; }
 footer a { color: #555; transition: color 0.15s; }
 footer a:hover { color: #888; }
+
+@media (max-width: 720px) {
+  .projects-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .projects-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 38px; }
+}
 </style>
 </head>
 <body>
@@ -65,7 +88,7 @@ footer a:hover { color: #888; }
   <div class="hero">
     <h1>jzad<span>.</span></h1>
     <p class="hero-bio">Building tools, experimenting with systems, and pushing things a bit further than they should go — at safe limits, of course.</p>
-    <a href="https://github.com/jzadpy" class="btn-main" target="_blank">GitHub →</a>
+    <a href="https://github.com/jzadl" class="btn-main" target="_blank">GitHub →</a>
   </div>
 
   <section>
@@ -79,46 +102,91 @@ footer a:hover { color: #888; }
       <span class="badge">Bash</span>
       <span class="badge">PowerShell</span>
       <span class="badge">React</span>
-      <span class="badge" hover="openCore">XNU</span>
+      <span class="badge">XNU</span>
       <span class="badge">Linux</span>
     </div>
   </section>
 
   <section>
-    <div class="section-head">
+    <div class="tabs-row">
       <h2>Projects</h2>
-      <span>things I've built</span>
+      <button class="tab-btn active" onclick="switchTab('stable', this)">stable</button>
+      <button class="tab-btn" onclick="switchTab('experimental', this)">experimental / archived</button>
     </div>
-    <div class="projects-grid">
 
-      <a href="https://github.com/jzadpy/timely" class="proj-card" target="_blank">
-        <div class="proj-header"><span class="proj-name">Timely</span><span class="proj-arrow">↗</span></div>
-        <p class="proj-desc">React-based schedule organizer. Simple, customizable, focused on usability.</p>
-        <span class="proj-tag">React</span>
-      </a>
+    <!-- STABLE -->
+    <div class="tab-panel active" id="tab-stable">
+      <div class="projects-grid">
 
-      <a href="https://github.com/jzadpy/openbeam" class="proj-card" target="_blank">
-        <div class="proj-header"><span class="proj-name">OpenBeam</span><span class="proj-arrow">↗</span></div>
-        <p class="proj-desc">Successor to Android Beam — pairs via NFC and transfers with Quick Share.</p>
-        <span class="proj-tag">Android</span>
-      </a>
+        <a href="https://github.com/jzadl/timely" class="proj-card" target="_blank">
+          <div class="proj-header"><span class="proj-name">Timely</span><span class="proj-arrow">↗</span></div>
+          <p class="proj-desc">React-based schedule organizer. Simple, customizable, focused on usability.</p>
+          <span class="proj-tag">React</span>
+        </a>
 
-      <div class="proj-card">
-        <div class="proj-header"><span class="proj-name">Hackintosh EFIs</span></div>
-        <p class="proj-desc">OpenCore configs for ThinkPads. Focused on stability and real-world use.</p>
-        <span class="proj-tag">Hackintosh · OpenCore</span>
-        <div class="efi-links">
-          <a href="https://github.com/jzadpy/t480efi.tahoe" class="efi-btn" target="_blank">T480 ↗</a>
-          <a href="https://github.com/jzadpy/t440s-monterey" class="efi-btn" target="_blank">T440s ↗</a>
+        <a href="https://github.com/jzadl/openbeam" class="proj-card" target="_blank">
+          <div class="proj-header"><span class="proj-name">OpenBeam</span><span class="proj-arrow">↗</span></div>
+          <p class="proj-desc">Successor to Android Beam — pairs via NFC and transfers with Quick Share.</p>
+          <span class="proj-tag">Android</span>
+        </a>
+
+        <div class="proj-card">
+          <div class="proj-header"><span class="proj-name">Hackintosh EFIs</span></div>
+          <p class="proj-desc">OpenCore configs for ThinkPads. Focused on stability and real-world use.</p>
+          <span class="proj-tag">Hackintosh · OpenCore</span>
+          <div class="efi-links">
+            <a href="https://github.com/jzadl/t480efi.tahoe" class="efi-btn" target="_blank">T480 ↗</a>
+            <a href="https://github.com/jzadl/t440s-monterey" class="efi-btn" target="_blank">T440s ↗</a>
+          </div>
         </div>
+
+        <a href="https://github.com/jzadl/selenerom" class="proj-card" target="_blank">
+          <div class="proj-header"><span class="proj-name">SeleneROM</span><span class="proj-arrow">↗</span></div>
+          <p class="proj-desc">Custom ROM guide for Redmi Note 10 (selene). Built entirely on Linux.</p>
+          <span class="proj-tag">Android · Linux</span>
+        </a>
+
+        <a href="https://github.com/jzadl/anoniq" class="proj-card" target="_blank">
+          <div class="proj-header"><span class="proj-name">anoniq</span><span class="proj-arrow">↗</span></div>
+          <p class="proj-desc">Anonymous Twitter-like Q&A board in the terminal. Account? Just a 16-digit number, Mullvad-style.</p>
+          <span class="proj-tag">Python · TUI</span>
+        </a>
+
       </div>
+    </div>
 
-      <a href="https://github.com/jzadpy/selenerom" class="proj-card" target="_blank">
-        <div class="proj-header"><span class="proj-name">SeleneROM</span><span class="proj-arrow">↗</span></div>
-        <p class="proj-desc">Custom ROM guide for Redmi Note 10 (selene). Built entirely on Linux.</p>
-        <span class="proj-tag">Android · Linux</span>
-      </a>
+    <!-- EXPERIMENTAL / ARCHIVED -->
+    <div class="tab-panel" id="tab-experimental">
+      <div class="projects-grid">
 
+        <a href="https://github.com/jzadl/msedgerp" class="proj-card" target="_blank">
+          <div class="proj-header">
+            <span class="proj-name">msedgerp</span>
+            <span class="proj-status exp">experimental</span>
+          </div>
+          <p class="proj-desc">Experimental Microsoft Edge removal tool. PowerShell script that yanks Edge out — should work without issues.</p>
+          <span class="proj-tag">PowerShell</span>
+        </a>
+
+        <a href="https://github.com/jzadl/DoMagic" class="proj-card" target="_blank">
+          <div class="proj-header">
+            <span class="proj-name">DoMagic</span>
+            <span class="proj-status exp">experimental</span>
+          </div>
+          <p class="proj-desc">Experimental Android app for rooting with Magisk using two phones.</p>
+          <span class="proj-tag">Kotlin · Android</span>
+        </a>
+
+        <a href="https://github.com/jzadl/pyml" class="proj-card" target="_blank">
+          <div class="proj-header">
+            <span class="proj-name">PyML</span>
+            <span class="proj-status arch">archived</span>
+          </div>
+          <p class="proj-desc">A transpiler for writing Python with a YAML-inspired syntax. Cleaner code, same Python ecosystem underneath.</p>
+          <span class="proj-tag">Python · Transpiler</span>
+        </a>
+
+      </div>
     </div>
   </section>
 
@@ -134,7 +202,16 @@ footer a:hover { color: #888; }
 
 </main>
 <footer>
-  <a href="https://github.com/jzadpy" target="_blank">github.com/jzadpy</a> · © 2025-present
+  <a href="https://github.com/jzadl" target="_blank">github.com/jzadl</a> · © 2025-present
 </footer>
+
+<script>
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
 </body>
 </html>
