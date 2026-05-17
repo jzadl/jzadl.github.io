@@ -25,6 +25,8 @@ main { flex: 1; width: 100%; padding: 80px 6vw; }
 .hero-bio { font-size: 16px; color: #888; line-height: 1.65; max-width: 540px; margin-bottom: 28px; }
 .btn-main { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; background: #3b82f6; color: #fff; font-size: 13px; font-weight: 500; border-radius: 20px; transition: background 0.15s; }
 .btn-main:hover { background: #2563eb; }
+.btn-tools { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; background: #222; border: 1px solid #2e2e2e; color: #ccc; font-size: 13px; font-weight: 500; border-radius: 20px; transition: border-color 0.15s, color 0.15s, background 0.15s; }
+.btn-tools:hover { background: #2a2a2a; border-color: #444; color: #fff; }
 
 section { margin-bottom: 60px; }
 .section-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 20px; }
@@ -91,7 +93,10 @@ footer a:hover { color: #888; }
   <div class="hero">
     <h1>jzad<span>.</span></h1>
     <p class="hero-bio">Building tools, experimenting with systems, and pushing things a bit further than they should go — at safe limits, of course.</p>
-    <a href="https://github.com/jzadl" class="btn-main" target="_blank">GitHub →</a>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <a href="https://github.com/jzadl" class="btn-main" target="_blank">GitHub →</a>
+      <a href="https://tools.jzadl.xyz" class="btn-tools">Tools →</a>
+    </div>
   </div>
 
   <section>
@@ -160,8 +165,8 @@ footer a:hover { color: #888; }
           <p class="proj-desc">Simple PowerShell script that determinates if all your programs are compatible with Linux.</p>
           <span class="proj-tag">PowerShell · Linux</span>
         </a>
+
       </div>
-      
     </div>
 
     <!-- EXPERIMENTAL / ARCHIVED -->
