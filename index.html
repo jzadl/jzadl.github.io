@@ -85,7 +85,7 @@ main { flex: 1; width: 100%; padding: 80px 6vw; position: relative; z-index: 1; 
   -webkit-text-fill-color: #3b82f6;
 }
 .hero-bio { font-size: 16px; color: #888; line-height: 1.65; max-width: 540px; margin-bottom: 28px; }
-.btn-main { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; background: #3b82f6; color: #fff; font-size: 13px; font-weight: 500; border-radius: 20px; transition: background 0.15s; }
+.btn-main { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; background: #3b82f6; color: #fff; font-size: 13px; font-weight: 500; border-radius: 20px; transition: background 0.15s; border: none; cursor: pointer; }
 .btn-main:hover { background: #2563eb; }
 .btn-tools { 
   display: inline-flex; 
@@ -125,7 +125,7 @@ section { margin-bottom: 60px; }
 /* tabs */
 .tabs-row { display: flex; align-items: center; gap: 4px; margin-bottom: 20px; }
 .tabs-row h2 { font-size: 18px; font-weight: 600; color: #fff; margin-right: 10px; }
-.tab-btn { padding: 4px 12px; font-size: 12px; font-weight: 500; border-radius: 6px; border: 1px solid transparent; cursor: pointer; background: transparent; color: #555; transition: background 0.15s, color 0.15s, border-color 0.15s; font-family: inherit; }
+.tab-btn { padding: 4px 12px; font-size: 12px; font-weight: 500; border-radius: 6px; border: 1px solid transparent; cursor: pointer; background: transparent; color: #555; transition: background 0.15s, color 0.15s; }
 .tab-btn:hover { color: #aaa; }
 .tab-btn.active { background: #080808; border-color: #1c1c1c; color: #ccc; }
 
@@ -288,6 +288,12 @@ footer a:hover { color: #888; }
           <span class="proj-tag">PowerShell · Linux</span>
         </a>
 
+        <a href="https://github.com/jzadl/candle" class="proj-card" target="_blank">
+          <div class="proj-header"><span class="proj-name">Candle</span><span class="proj-arrow">↗</span></div>
+          <p class="proj-desc">A modern, lightweight tool for managing and organizing your projects.</p>
+          <span class="proj-tag">Tools</span>
+        </a>
+
       </div>
     </div>
 
@@ -330,7 +336,7 @@ footer a:hover { color: #888; }
     <div class="section-head"><h2>About</h2></div>
       <ul class="about-list">
         <li>
-            I started programming at 8 years old making games in GameFruit and Stencyl through courses at Robin Academy. Later, I took a web development course, which pushed me to start learning on my own.
+            I started programming at 8 years old making games in GameFruit and Stencyl through courses at Robin Academy. Later, I took a web development course, which pushed me to start learning HTML, CSS, and JavaScript.
              I began working with Python and created projects like Textlogpy, a notes app with login/register systems and basic encryption, and PyML. 
           
           Over time, I expanded into Linux, Android, and XNU/OpenCore development, where I built multiple Hackintosh EFIs and created tools and guides related to custom ROM development on Linux.
@@ -340,7 +346,7 @@ footer a:hover { color: #888; }
             Currently, I am 13 years old and constantly trying to improve across programming, systems, and software development.
   </li>
 
-    </ul>
+     </ul>
   </section>
 
 </main>
@@ -356,6 +362,6 @@ function switchTab(tab, btn) {
   btn.classList.add('active');
 }
 </script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"1aebf5f6307c404b8c8678a22b073a90","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A56/g4kVN4w4VXq8PJbGF7YzIlVHDEQ=="></script>
 </body>
 </html>
