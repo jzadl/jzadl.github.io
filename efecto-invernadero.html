@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Efecto Invernadero</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --sky:      #b8dff0;
+  --sky-deep: #7ec8e3;
+  --sun:      #f5c842;
+  --green:    #4a9e6b;
+  --green-lt: #a8d5b5;
+  --green-dk: #1f5c38;
+  --earth:    #c8a96e;
+  --leaf:     #e6f5ea;
+  --text:     #162316;
+  --muted:    #4d6b52;
+  --card-bg:  #f0f9f3;
+  --card-bd:  #c5e0cc;
+  --white:    #ffffff;
+  --red-warn: #c0392b;
+  --orange:   #e07b28;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--leaf);
+  color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ────────────────────────────────
+   HERO / CIELO
+──────────────────────────────── */
+.hero {
+  background: var(--sky);
+  min-height: 100svh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+  padding-bottom: 0;
+}
+
+/* SOL */
+.sun {
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--sun);
+  box-shadow:
+    0 0 0 14px rgba(245,200,66,0.22),
+    0 0 0 28px rgba(245,200,66,0.1);
+  animation: sunPulse 4s ease-in-out infinite;
+}
+
+@keyframes sunPulse {
+  0%,100% { box-shadow: 0 0 0 14px rgba(245,200,66,0.22), 0 0 0 28px rgba(245,200,66,0.1); }
+  50%      { box-shadow: 0 0 0 20px rgba(245,200,66,0.28), 0 0 0 40px rgba(245,200,66,0.12); }
+}
+
+/* RAYOS DEL SOL */
+.sun-rays {
+  position: absolute;
+  top: calc(8% + 40px);
+  left: 50%;
+  width: 0; height: 0;
+  transform: translateX(-50%) translateY(-40px);
+}
+
+.ray {
+  position: absolute;
+  width: 3px;
+  background: rgba(245,200,66,0.55);
+  border-radius: 2px;
+  transform-origin: top center;
+  animation: rayPulse 4s ease-in-out infinite;
+}
+@keyframes rayPulse {
+  0%,100% { opacity:0.55; } 50% { opacity:0.3; }
+}
+
+/* NUBES */
+.clouds { position: absolute; inset: 0; pointer-events: none; }
+
+.cloud {
+  position: absolute;
+  background: var(--white);
+  border-radius: 50px;
+}
+.cloud::before, .cloud::after {
+  content: '';
+  position: absolute;
+  background: var(--white);
+  border-radius: 50%;
+}
+
+/* nube chica — empieza ya dentro del viewport a distintos puntos */
+.c1 { width: 110px; height: 34px; top: 16%; left: -140px; animation: drift 28s linear 0s infinite; }
+.c1::before { width: 54px; height: 54px; top: -30px; left: 14px; }
+.c1::after  { width: 38px; height: 38px; top: -20px; left: 52px; }
+
+/* nube grande */
+.c2 { width: 170px; height: 46px; top: 34%; left: -220px; animation: drift 38s linear 4s infinite; }
+.c2::before { width: 78px; height: 78px; top: -46px; left: 22px; }
+.c2::after  { width: 56px; height: 56px; top: -32px; left: 80px; }
+
+/* nube mediana, arranca ya visible a mitad del cielo */
+.c3 { width: 130px; height: 38px; top: 10%; left: 30vw; animation: drift 32s linear 0s infinite; }
+.c3::before { width: 62px; height: 62px; top: -36px; left: 16px; }
+.c3::after  { width: 44px; height: 44px; top: -24px; left: 64px; }
+
+/* nube chiquita, arranca visible en lado derecho */
+.c4 { width: 90px; height: 28px; top: 44%; left: 60vw; animation: drift 24s linear 0s infinite; }
+.c4::before { width: 44px; height: 44px; top: -24px; left: 12px; }
+.c4::after  { width: 32px; height: 32px; top: -16px; left: 42px; }
+
+/* nube extra para llenar */
+.c5 { width: 140px; height: 40px; top: 56%; left: -180px; animation: drift 34s linear 10s infinite; }
+.c5::before { width: 68px; height: 68px; top: -40px; left: 18px; }
+.c5::after  { width: 50px; height: 50px; top: -28px; left: 70px; }
+
+@keyframes drift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(100vw + 300px)); }
+}
+
+/* FLECHAS DE CALOR */
+.heat-arrows {
+  position: absolute;
+  bottom: 175px;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  pointer-events: none;
+}
+
+.arrow-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  animation: arrowFloat 2.4s ease-in-out infinite;
+}
+
+.arrow-ico {
+  font-size: 2.4rem;
+  line-height: 1;
+  font-weight: 700;
+}
+.arrow-ico.up   { color: var(--orange); }
+.arrow-ico.down { color: var(--red-warn); }
+
+.arrow-lbl {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.3;
+}
+
+@keyframes arrowFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+/* PASTO / TIERRA */
+.ground {
+  width: 100%;
+  position: relative;
+}
+
+.grass {
+  width: 100%;
+  background: var(--green);
+  position: relative;
+  overflow: visible;
+}
+
+/* ondas de pasto */
+.grass::before {
+  content: '';
+  position: absolute;
+  top: -22px;
+  left: -5%; right: -5%;
+  width: 110%;
+  height: 28px;
+  background: var(--green);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+
+.soil {
+  width: 100%;
+  height: 30px;
+  background: var(--earth);
+}
+
+/* TÍTULO SOBRE EL PASTO */
+.hero-title-wrap {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 1.2rem 1.5rem 1.5rem;
+  background: var(--green);
+  width: 100%;
+}
+
+.hero-title-wrap h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2rem, 9vw, 4.2rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  text-align: center;
+  width: 100%;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.hero-title-wrap p {
+  color: var(--green-lt);
+  font-size: 0.9rem;
+  margin-top: 0.6rem;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+/* SCROLL HINT */
+.scroll-hint {
+  margin-top: 1.2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--green-lt);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  animation: nudge 2s ease-in-out infinite;
+}
+@keyframes nudge {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(6px); }
+}
+
+/* ────────────────────────────────
+   SECCIONES GENÉRICAS
+──────────────────────────────── */
+.section {
+  padding: 3.5rem 1.5rem;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.7rem, 6vw, 2.3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+.num-label {
+  font-size: 3rem;
+  font-weight: 800;
+  font-family: 'Syne', sans-serif;
+  color: var(--green);
+  line-height: 1;
+  margin-bottom: -0.2rem;
+  display: block;
+}
+
+p { color: var(--muted); font-size: 0.95rem; margin-bottom: 0.8rem; line-height: 1.65; }
+
+.divider {
+  height: 2px;
+  background: var(--card-bd);
+  margin: 0 1.5rem;
+  border-radius: 2px;
+}
+
+/* REVEAL */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.in { opacity: 1; transform: none; }
+
+/* ────────────────────────────────
+   QUÉ ES
+──────────────────────────────── */
+.explainer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+  margin-top: 1.4rem;
+}
+
+.exp-card {
+  background: var(--card-bg);
+  border: 2px solid var(--card-bd);
+  border-radius: 14px;
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.25s, border-color 0.25s;
+}
+.exp-card:hover { transform: translateY(-3px); border-color: var(--green); }
+.exp-card .icon { font-size: 2rem; display: block; margin-bottom: 0.4rem; }
+.exp-card h3 { font-size: 0.82rem; font-weight: 600; color: var(--text); margin-bottom: 0.3rem; }
+.exp-card p  { font-size: 0.75rem; margin: 0; }
+
+/* ────────────────────────────────
+   GASES
+──────────────────────────────── */
+.gas-list { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1.4rem; }
+
+.gas-card {
+  background: var(--card-bg);
+  border: 2px solid var(--card-bd);
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.25s;
+}
+.gas-card:hover { transform: translateX(5px); }
+.gas-card .gico { font-size: 2rem; flex-shrink:0; }
+
+.gas-info h3 { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 0.2rem; }
+.gas-info p  { font-size: 0.78rem; margin-bottom: 0.4rem; }
+
+.bar-track { background: #d0e8d5; border-radius: 4px; height: 6px; overflow:hidden; }
+.bar-fill  { height:100%; border-radius:4px; width:0; transition: width 1.4s cubic-bezier(0.22,1,0.36,1); }
+.bar-fill.in { width: var(--w); }
+
+.b-co2   { background: var(--orange); }
+.b-ch4   { background: #9b59b6; }
+.b-n2o   { background: var(--sky-deep); }
+.b-h2o   { background: var(--green); }
+
+/* ────────────────────────────────
+   CAUSAS
+──────────────────────────────── */
+.timeline { margin-top: 1.5rem; padding-left: 1.4rem; position: relative; }
+.timeline::before {
+  content:'';
+  position:absolute; left:0; top:4px; bottom:4px;
+  width:3px;
+  background: var(--green);
+  border-radius:2px;
+}
+.t-item { position:relative; margin-bottom:1.8rem; }
+.t-item::before {
+  content:'';
+  position:absolute;
+  left: -1.8rem; top: 0.25rem;
+  width:11px; height:11px;
+  border-radius:50%;
+  background: var(--green);
+  border:2px solid var(--leaf);
+}
+.t-item h3 { font-size:0.95rem; font-weight:600; color:var(--text); margin-bottom:0.25rem; }
+.t-item p  { font-size:0.82rem; margin:0; }
+
+/* ────────────────────────────────
+   DATOS / TERMÓMETROS
+──────────────────────────────── */
+.data-section { background: var(--white); border-top: 2px solid var(--card-bd); border-bottom: 2px solid var(--card-bd); }
+
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+  margin: 1.4rem 0;
+}
+
+.stat-box {
+  background: var(--card-bg);
+  border: 2px solid var(--card-bd);
+  border-radius: 14px;
+  padding: 1.2rem 0.8rem;
+  text-align: center;
+}
+
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--green-dk);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.stat-lbl { font-size: 0.7rem; color: var(--muted); }
+
+.thermo-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 1.5rem 0;
+  overflow-x: auto;
+}
+
+.t-col { display:flex; flex-direction:column; align-items:center; gap:5px; }
+
+.t-tube {
+  width:30px; height:130px;
+  background: var(--card-bg);
+  border: 2px solid var(--card-bd);
+  border-radius:14px 14px 6px 6px;
+  overflow:hidden;
+  display:flex; align-items:flex-end;
+}
+
+.t-mercury {
+  width:100%;
+  height:0;
+  border-radius:0 0 6px 6px;
+  transition: height 1.6s cubic-bezier(0.22,1,0.36,1);
+}
+.t-mercury.in { height: var(--h); }
+
+.t-yr  { font-size:0.72rem; font-weight:600; color:var(--text); }
+.t-deg { font-size:0.62rem; color:var(--muted); text-align:center; max-width:48px; }
+
+/* ────────────────────────────────
+   CONSECUENCIAS
+──────────────────────────────── */
+.effects-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+  margin-top: 1.4rem;
+}
+
+.eff-card {
+  background: var(--card-bg);
+  border: 2px solid var(--card-bd);
+  border-radius:14px;
+  padding:1rem;
+  transition: transform 0.25s;
+}
+.eff-card:hover { transform: scale(1.03); }
+.eff-card .eico { font-size:2rem; display:block; margin-bottom:0.4rem; }
+.eff-card h3 { font-size:0.82rem; font-weight:600; margin-bottom:0.25rem; color:var(--text); }
+.eff-card p  { font-size:0.73rem; margin:0; }
+
+/* ────────────────────────────────
+   SOLUCIONES
+──────────────────────────────── */
+.sol-list { display:flex; flex-direction:column; gap:0.8rem; margin-top:1.4rem; }
+
+.sol-item {
+  display:flex; gap:1rem; align-items:flex-start;
+  background: var(--card-bg);
+  border: 2px solid var(--card-bd);
+  border-radius:14px;
+  padding:1rem 1.2rem;
+  transition: border-color 0.25s, transform 0.25s;
+}
+.sol-item:hover { border-color:var(--green); transform:translateX(4px); }
+.sol-item .sico { font-size:1.6rem; flex-shrink:0; }
+.sol-item h3 { font-size:0.9rem; font-weight:600; margin-bottom:0.2rem; color:var(--text); }
+.sol-item p  { font-size:0.78rem; margin:0; }
+
+/* ────────────────────────────────
+   QUIZ
+──────────────────────────────── */
+.quiz-box {
+  background: var(--card-bg);
+  border: 2px solid var(--card-bd);
+  border-radius:18px;
+  padding:1.5rem;
+  margin-top:1.4rem;
+}
+
+.quiz-q { font-size:0.95rem; font-weight:600; margin-bottom:1rem; color:var(--text); }
+.quiz-opts { display:flex; flex-direction:column; gap:0.5rem; }
+
+.quiz-btn {
+  background: var(--white);
+  border: 2px solid var(--card-bd);
+  border-radius:10px;
+  padding:0.75rem 1rem;
+  color:var(--text);
+  font-family:inherit;
+  font-size:0.85rem;
+  text-align:left;
+  cursor:pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.quiz-btn:hover  { border-color:var(--green); background:#f0f9f3; }
+.quiz-btn.ok     { background:rgba(74,158,107,0.12); border-color:var(--green); color:var(--green-dk); font-weight:600; }
+.quiz-btn.bad    { background:rgba(192,57,43,0.08); border-color:var(--red-warn); color:var(--red-warn); }
+
+.quiz-result {
+  margin-top:0.9rem;
+  padding:0.75rem 1rem;
+  border-radius:10px;
+  font-size:0.84rem;
+  display:none;
+}
+.quiz-result.show { display:block; }
+.quiz-result.ok  { background:rgba(74,158,107,0.1); border:2px solid var(--green); color:var(--green-dk); }
+.quiz-result.bad { background:rgba(192,57,43,0.08); border:2px solid var(--red-warn); color:var(--red-warn); }
+
+.quiz-next {
+  margin-top:0.9rem;
+  background:var(--green);
+  color:var(--white);
+  border:none;
+  border-radius:10px;
+  padding:0.65rem 1.4rem;
+  font-family:inherit;
+  font-size:0.85rem;
+  font-weight:700;
+  cursor:pointer;
+  display:none;
+}
+.quiz-next.show { display:inline-block; }
+.quiz-next:hover { background:var(--green-dk); }
+
+.score-wrap { text-align:center; padding:1rem 0; }
+.score-big { font-family:'Syne',sans-serif; font-size:3.5rem; font-weight:800; color:var(--green-dk); line-height:1; }
+.score-sub { font-size:0.85rem; color:var(--muted); margin-top:0.3rem; }
+
+/* ────────────────────────────────
+   FOOTER
+──────────────────────────────── */
+footer {
+  background: var(--green-dk);
+  color: var(--green-lt);
+  padding: 2.5rem 1.5rem 3rem;
+  text-align: center;
+}
+
+footer h2 {
+  font-family:'Syne',sans-serif;
+  font-size:1.4rem;
+  color:var(--white);
+  margin-bottom:1.5rem;
+}
+
+.footer-card {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius:14px;
+  padding:1.25rem;
+  max-width:380px;
+  margin:0 auto 1.5rem;
+  text-align:left;
+}
+
+.footer-card h3 { font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:0.8rem; }
+
+.info-row { display:flex; justify-content:space-between; align-items:baseline; gap:0.5rem; padding:0.35rem 0; border-bottom:1px solid rgba(255,255,255,0.07); }
+.info-row:last-child { border-bottom:none; }
+.info-row .k { font-size:0.75rem; color:rgba(255,255,255,0.45); }
+.info-row .v { font-size:0.82rem; font-weight:600; color:var(--white); text-align:right; }
+
+footer p { color:rgba(255,255,255,0.35); font-size:0.7rem; margin:0; }
+
+/* ── NAV DOTS ── */
+.nav-dots {
+  position:fixed;
+  right:0.75rem;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:200;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.ndot {
+  width:5px; height:5px;
+  border-radius:50%;
+  background:rgba(26,46,26,0.2);
+  cursor:pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+.ndot.on { background:var(--green-dk); transform:scale(1.8); }
+</style>
+</head>
+<body>
+
+<!-- NAV DOTS -->
+<div class="nav-dots" id="navDots"></div>
+
+<!-- ─────────── HERO ─────────── -->
+<div class="hero" id="s0">
+  <!-- Sol -->
+  <div class="sun"></div>
+
+  <!-- Rayos del sol generados por JS -->
+  <div class="sun-rays" id="sunRays"></div>
+
+  <div class="clouds">
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+    <div class="cloud c3"></div>
+    <div class="cloud c4"></div>
+    <div class="cloud c5"></div>
+  </div>
+
+  <!-- Flechas efecto invernadero -->
+  <div class="heat-arrows">
+    <div class="arrow-col">
+      <div class="arrow-lbl">Calor de<br>la Tierra</div>
+      <div class="arrow-ico up">↑</div>
+    </div>
+    <div class="arrow-col" style="animation-delay:0.4s">
+      <div class="arrow-lbl">Radiación<br>solar</div>
+      <div class="arrow-ico up">↑</div>
+    </div>
+    <div class="arrow-col" style="animation-delay:0.8s">
+      <div class="arrow-ico down">↓</div>
+      <div class="arrow-lbl">Calor<br>atrapado</div>
+    </div>
+  </div>
+
+  <!-- Tierra y título -->
+  <div class="ground">
+    <div class="grass">
+      <div class="hero-title-wrap">
+        <h1>El Efecto<br>Invernadero</h1>
+        <p>El fenómeno que mantiene la Tierra con vida, y el peligro de alterarlo por las actividades humanas.</p>
+        <div class="scroll-hint">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+          Descubre más
+        </div>
+      </div>
+    </div>
+    <div class="soil"></div>
+  </div>
+</div>
+
+<!-- ─────────── QUÉ ES ─────────── -->
+<section id="s1">
+  <div class="section">
+    <div class="reveal">
+      <span class="num-label">01</span>
+      <h2>¿Qué es?</h2>
+      <p>Es un proceso natural por el que la atmósfera de la Tierra atrapa calor del Sol, manteniendo al planeta lo suficientemente cálido para albergar vida.</p>
+      <p>Los gases actúan como el vidrio de un invernadero: dejan pasar la luz solar pero retienen el calor que rebota desde la superficie.</p>
+
+      <div class="explainer-grid">
+        <div class="exp-card">
+          <span class="icon">☀️</span>
+          <h3>Radiación solar</h3>
+          <p>La luz atraviesa la atmósfera y calienta la superficie.</p>
+        </div>
+        <div class="exp-card">
+          <span class="icon">🌡️</span>
+          <h3>Calor emitido</h3>
+          <p>La superficie emite calor infrarrojo hacia arriba.</p>
+        </div>
+        <div class="exp-card">
+          <span class="icon">🔄</span>
+          <h3>Gases trampa</h3>
+          <p>Los GEI absorben ese calor y parte lo redirigen abajo.</p>
+        </div>
+        <div class="exp-card">
+          <span class="icon">🌍</span>
+          <h3>Sin él: &minus;18 °C</h3>
+          <p>El planeta sería un bloque de hielo sin este efecto.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─────────── GASES ─────────── -->
+<section id="s2">
+  <div class="section">
+    <div class="reveal">
+      <span class="num-label">02</span>
+      <h2>Los gases responsables</h2>
+      <p>No todos los gases contribuyen igual. Algunos son naturales, otros son consecuencia directa de las actividades humanas.</p>
+
+      <div class="gas-list">
+        <div class="gas-card">
+          <div class="gico">💨</div>
+          <div class="gas-info">
+            <h3>Dióxido de carbono (CO₂)</h3>
+            <p>Principal gas humano. Quema de combustibles fósiles. ~76 % de las emisiones globales.</p>
+            <div class="bar-track"><div class="bar-fill b-co2" style="--w:76%"></div></div>
+          </div>
+        </div>
+        <div class="gas-card">
+          <div class="gico">🐄</div>
+          <div class="gas-info">
+            <h3>Metano (CH₄)</h3>
+            <p>Ganado, arrozales y basureros. ~16 % de emisiones, pero 28× más potente que el CO₂.</p>
+            <div class="bar-track"><div class="bar-fill b-ch4" style="--w:55%"></div></div>
+          </div>
+        </div>
+        <div class="gas-card">
+          <div class="gico">🌾</div>
+          <div class="gas-info">
+            <h3>Óxido nitroso (N₂O)</h3>
+            <p>Fertilizantes agrícolas. 265× más potente que el CO₂ en 100 años.</p>
+            <div class="bar-track"><div class="bar-fill b-n2o" style="--w:38%"></div></div>
+          </div>
+        </div>
+        <div class="gas-card">
+          <div class="gico">💧</div>
+          <div class="gas-info">
+            <h3>Vapor de agua (H₂O)</h3>
+            <p>El más abundante de forma natural. Aumenta al subir la temperatura, amplificando el calentamiento.</p>
+            <div class="bar-track"><div class="bar-fill b-h2o" style="--w:88%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─────────── CAUSAS ─────────── -->
+<section id="s3">
+  <div class="section">
+    <div class="reveal">
+      <span class="num-label">03</span>
+      <h2>¿Por qué se intensifica?</h2>
+      <p>El efecto invernadero es natural y necesario. El problema es que las actividades humanas están acelerando la concentración de gases.</p>
+
+      <div class="timeline">
+        <div class="t-item">
+          <h3>🏭 Industria y manufactura</h3>
+          <p>Fábricas que queman combustibles y liberan CO₂, metano y gases fluorados en grandes cantidades.</p>
+        </div>
+        <div class="t-item">
+          <h3>🚗 Transporte</h3>
+          <p>Autos, aviones y barcos representan el ~16 % de emisiones globales, casi todos usando derivados del petróleo.</p>
+        </div>
+        <div class="t-item">
+          <h3>🌲 Deforestación</h3>
+          <p>Los bosques absorben CO₂. Al talarlos perdemos ese pulmón, y el carbono almacenado se libera al quemarlos.</p>
+        </div>
+        <div class="t-item">
+          <h3>🌾 Agricultura</h3>
+          <p>El ganado produce metano, los arrozales también, y los fertilizantes nitrogenados emiten óxido nitroso.</p>
+        </div>
+        <div class="t-item">
+          <h3>🏠 Generación eléctrica</h3>
+          <p>Las centrales de carbón y gas queman combustibles para producir electricidad, siendo la mayor fuente de emisiones.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─────────── DATOS ─────────── -->
+<section id="s4" class="data-section">
+  <div class="section">
+    <div class="reveal">
+      <span class="num-label">04</span>
+      <h2>Números que alarman</h2>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-num" id="cnt1">0</div>
+          <div class="stat-lbl">ppm de CO₂ hoy</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="cnt2">0</div>
+          <div class="stat-lbl">°C de aumento desde 1850</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="cnt3">0</div>
+          <div class="stat-lbl">Gt CO₂ emitidas en 2023</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="cnt4">0</div>
+          <div class="stat-lbl">M ha deforestadas al año</div>
+        </div>
+      </div>
+
+      <p>El CO₂ en la atmósfera es el más alto en 800,000 años. Antes de la industrialización era de 280 ppm; hoy supera los 420 ppm.</p>
+
+      <p style="margin-top:0.4rem">Temperatura promedio global a través del tiempo:</p>
+
+      <div class="thermo-row" id="thermoRow">
+        <div class="t-col">
+          <div class="t-tube"><div class="t-mercury" style="--h:28%; background:#7ec8e3;"></div></div>
+          <div class="t-yr">Pre-ind.</div>
+          <div class="t-deg">Base 13.8 °C</div>
+        </div>
+        <div class="t-col">
+          <div class="t-tube"><div class="t-mercury" style="--h:46%; background:#90c97a;"></div></div>
+          <div class="t-yr">1980</div>
+          <div class="t-deg">+0.3 °C</div>
+        </div>
+        <div class="t-col">
+          <div class="t-tube"><div class="t-mercury" style="--h:60%; background:#f5c842;"></div></div>
+          <div class="t-yr">2000</div>
+          <div class="t-deg">+0.6 °C</div>
+        </div>
+        <div class="t-col">
+          <div class="t-tube"><div class="t-mercury" style="--h:76%; background:#e07b28;"></div></div>
+          <div class="t-yr">2020</div>
+          <div class="t-deg">+1.0 °C</div>
+        </div>
+        <div class="t-col">
+          <div class="t-tube"><div class="t-mercury" style="--h:88%; background:#c0392b; animation: blink 1.2s ease-in-out infinite;"></div></div>
+          <div class="t-yr">Hoy</div>
+          <div class="t-deg">+1.2 °C</div>
+        </div>
+        <div class="t-col">
+          <div class="t-tube" style="border-color:#c0392b;"><div class="t-mercury" style="--h:100%; background:#7b1010;"></div></div>
+          <div class="t-yr">2100?</div>
+          <div class="t-deg">+4 °C peor caso</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.6} }
+</style>
+
+<div class="divider"></div>
+
+<!-- ─────────── CONSECUENCIAS ─────────── -->
+<section id="s5">
+  <div class="section">
+    <div class="reveal">
+      <span class="num-label">05</span>
+      <h2>¿Qué pasa si no hacemos nada?</h2>
+      <p>Un aumento de temperatura no es solo "más calor". Desencadena una cadena de efectos devastadores.</p>
+
+      <div class="effects-grid">
+        <div class="eff-card">
+          <span class="eico">🌡️</span>
+          <h3>Olas de calor</h3>
+          <p>Más frecuentes, largas y mortales cada año.</p>
+        </div>
+        <div class="eff-card">
+          <span class="eico">🧊</span>
+          <h3>Deshielo polar</h3>
+          <p>Glaciares y Ártico pierden hielo a velocidad récord.</p>
+        </div>
+        <div class="eff-card">
+          <span class="eico">🌊</span>
+          <h3>Subida del mar</h3>
+          <p>Amenaza a ciudades costeras e islas enteras.</p>
+        </div>
+        <div class="eff-card">
+          <span class="eico">🐠</span>
+          <h3>Pérdida de fauna</h3>
+          <p>Miles de especies no logran adaptarse al cambio.</p>
+        </div>
+        <div class="eff-card">
+          <span class="eico">🌀</span>
+          <h3>Huracanes fuertes</h3>
+          <p>El océano cálido da más energía a tormentas.</p>
+        </div>
+        <div class="eff-card">
+          <span class="eico">🏜️</span>
+          <h3>Sequías y hambre</h3>
+          <p>Las cosechas fallan cuando cambia el ciclo del agua.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─────────── SOLUCIONES ─────────── -->
+<section id="s6">
+  <div class="section">
+    <div class="reveal">
+      <span class="num-label">06</span>
+      <h2>Todavía estamos a tiempo</h2>
+      <p>La ciencia dice que limitar el calentamiento a 1.5 °C es posible si actuamos ahora, tanto globalmente como individualmente.</p>
+
+      <div class="sol-list">
+        <div class="sol-item">
+          <span class="sico">⚡</span>
+          <div>
+            <h3>Energías renovables</h3>
+            <p>Reemplazar carbón y gas por solar y eólica elimina la principal fuente de emisiones.</p>
+          </div>
+        </div>
+        <div class="sol-item">
+          <span class="sico">🚲</span>
+          <div>
+            <h3>Transporte limpio</h3>
+            <p>Vehículos eléctricos, bicicletas y transporte público reducen drásticamente el CO₂.</p>
+          </div>
+        </div>
+        <div class="sol-item">
+          <span class="sico">🌳</span>
+          <div>
+            <h3>Reforestación</h3>
+            <p>Plantar árboles y proteger bosques captura carbono de la atmósfera de forma natural.</p>
+          </div>
+        </div>
+        <div class="sol-item">
+          <span class="sico">🥦</span>
+          <div>
+            <h3>Dietas sostenibles</h3>
+            <p>Reducir el consumo de carne disminuye significativamente las emisiones de metano.</p>
+          </div>
+        </div>
+        <div class="sol-item">
+          <span class="sico">🏗️</span>
+          <div>
+            <h3>Edificios eficientes</h3>
+            <p>Mejor aislamiento y paneles solares reducen el consumo energético de los hogares.</p>
+          </div>
+        </div>
+        <div class="sol-item">
+          <span class="sico">🤝</span>
+          <div>
+            <h3>Acuerdos internacionales</h3>
+            <p>El Acuerdo de París (2015) comprometió a 196 países a reducir sus emisiones.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─────────── QUIZ ─────────── -->
+<section id="s7">
+  <div class="section">
+    <div class="reveal">
+      <span class="num-label">07</span>
+      <h2>¿Cuánto aprendiste?</h2>
+      <p>Cinco preguntas rápidas para poner a prueba tu conocimiento sobre el efecto invernadero.</p>
+      <div class="quiz-box">
+        <div id="quizInner"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── FOOTER ─────────── -->
+<footer id="s8">
+  <h2>🌍 Efecto Invernadero</h2>
+  <div class="footer-card">
+    <h3>Datos del proyecto</h3>
+    <div class="info-row"><span class="k">Alumno</span><span class="v">Jesús Zadkiel Félix Zamorano</span></div>
+    <div class="info-row"><span class="k">Grupo</span><span class="v">2°D Matutino</span></div>
+    <div class="info-row"><span class="k">Escuela</span><span class="v">ETI No. 28</span></div>
+    <div class="info-row"><span class="k">Profesor</span><span class="v">Rudecindo Beltrán Lugo</span></div>
+    <div class="info-row"><span class="k">Fecha</span><span class="v">Junio 2026</span></div>
+  </div>
+  <p>© 2026 · Todos los derechos reservados</p>
+</footer>
+
+<script>
+/* ── RAYOS DEL SOL ── */
+const raysEl = document.getElementById('sunRays');
+for (let i = 0; i < 8; i++) {
+  const r = document.createElement('div');
+  r.className = 'ray';
+  const angle = (i / 8) * 360;
+  const len = 22 + Math.random() * 14;
+  r.style.cssText = `height:${len}px; transform:rotate(${angle}deg) translateY(-54px); animation-delay:${i*0.15}s;`;
+  raysEl.appendChild(r);
+}
+
+/* ── REVEAL ── */
+const reveals = document.querySelectorAll('.reveal');
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('in');
+    e.target.querySelectorAll('.bar-fill').forEach(b => b.classList.add('in'));
+    revObs.unobserve(e.target);
+  });
+}, { threshold: 0.12 });
+reveals.forEach(r => revObs.observe(r));
+
+/* thermo */
+const thermoObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.querySelectorAll('.t-mercury').forEach(m => m.classList.add('in'));
+    thermoObs.unobserve(e.target);
+  });
+}, { threshold: 0.2 });
+thermoObs.observe(document.getElementById('thermoRow'));
+
+/* ── COUNTERS ── */
+function animCount(el, target, suffix, dec) {
+  const dur = 1800, step = 16;
+  let t = 0;
+  const iv = setInterval(() => {
+    t = Math.min(t + step, dur);
+    const v = target * t / dur;
+    el.textContent = (dec ? v.toFixed(dec) : Math.round(v)) + suffix;
+    if (t >= dur) clearInterval(iv);
+  }, step);
+}
+
+const cntObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    animCount(document.getElementById('cnt1'), 422, ' ppm', 0);
+    animCount(document.getElementById('cnt2'), 1.2, ' °C', 1);
+    animCount(document.getElementById('cnt3'), 36.8, ' Gt', 1);
+    animCount(document.getElementById('cnt4'), 10, ' M', 0);
+    cntObs.unobserve(e.target);
+  });
+}, { threshold: 0.3 });
+cntObs.observe(document.getElementById('s4'));
+
+/* ── NAV DOTS ── */
+const secs = ['s0','s1','s2','s3','s4','s5','s6','s7','s8'].map(id => document.getElementById(id));
+const dw = document.getElementById('navDots');
+secs.forEach((s, i) => {
+  const d = document.createElement('div');
+  d.className = 'ndot';
+  d.onclick = () => s.scrollIntoView({ behavior:'smooth' });
+  dw.appendChild(d);
+});
+const ndots = dw.querySelectorAll('.ndot');
+const secObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const i = secs.indexOf(e.target);
+      ndots.forEach((d, j) => d.classList.toggle('on', j === i));
+    }
+  });
+}, { threshold: 0.4 });
+secs.forEach(s => secObs.observe(s));
+
+/* ── QUIZ ── */
+const qs = [
+  { q:"¿Cuál es el gas de efecto invernadero más emitido por humanos?", opts:["Metano (CH₄)","Dióxido de carbono (CO₂)","Óxido nitroso (N₂O)","Vapor de agua"], ans:1, exp:"El CO₂ representa ~76 % de las emisiones globales de GEI de origen humano." },
+  { q:"Sin el efecto invernadero natural, la temperatura de la Tierra sería:", opts:["-18 °C","0 °C","+5 °C","-50 °C"], ans:0, exp:"Sin los GEI naturales, la Tierra sería un planeta congelado a aproximadamente -18 °C." },
+  { q:"¿Cuánto más potente es el metano frente al CO₂ en 100 años?", opts:["5 veces","10 veces","28 veces","100 veces"], ans:2, exp:"El metano tiene un potencial de calentamiento 28 veces mayor que el CO₂ en un siglo." },
+  { q:"¿En qué año se firmó el Acuerdo de París?", opts:["2009","2012","2015","2020"], ans:2, exp:"El Acuerdo de París se adoptó el 12 de diciembre de 2015 en la COP21." },
+  { q:"La concentración actual de CO₂ en la atmósfera es aproximadamente:", opts:["280 ppm","350 ppm","420 ppm","500 ppm"], ans:2, exp:"Superamos los 420 ppm en 2023, el nivel más alto en 800,000 años." }
+];
+let cur = 0, score = 0;
+
+function renderQ() {
+  if (cur >= qs.length) {
+    document.getElementById('quizInner').innerHTML = `
+      <div class="score-wrap">
+        <div class="score-big">${score}/${qs.length}</div>
+        <div class="score-sub">${score>=4?'¡Excelente! Ya eres experto en el tema 🌱':score>=2?'Bien, pero hay cosas que repasar 📖':'Sigue estudiando, puedes mejorar 💪'}</div>
+        <button class="quiz-next show" style="margin-top:1.2rem" onclick="restart()">Intentar de nuevo</button>
+      </div>`;
+    return;
+  }
+  const q = qs[cur];
+  document.getElementById('quizInner').innerHTML = `
+    <div class="quiz-q">Pregunta ${cur+1} de ${qs.length}: ${q.q}</div>
+    <div class="quiz-opts">${q.opts.map((o,i)=>`<button class="quiz-btn" onclick="ans(${i})">${o}</button>`).join('')}</div>
+    <div class="quiz-result" id="qr"></div>
+    <button class="quiz-next" id="qn" onclick="next()">Siguiente →</button>`;
+}
+
+function ans(i) {
+  const q = qs[cur];
+  const btns = document.querySelectorAll('.quiz-btn');
+  btns.forEach(b => b.disabled = true);
+  const res = document.getElementById('qr');
+  if (i === q.ans) { btns[i].classList.add('ok'); score++; res.textContent = '✅ ¡Correcto! '+q.exp; res.className='quiz-result show ok'; }
+  else { btns[i].classList.add('bad'); btns[q.ans].classList.add('ok'); res.textContent='❌ No era esa. '+q.exp; res.className='quiz-result show bad'; }
+  document.getElementById('qn').classList.add('show');
+}
+
+function next() { cur++; renderQ(); }
+function restart() { cur=0; score=0; renderQ(); }
+renderQ();
+</script>
+</body>
+</html>
